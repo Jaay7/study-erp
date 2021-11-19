@@ -1,9 +1,14 @@
 import React from 'react'
 import Header from './Layouts/Header'
-import { Grid, Card, Typography, CardContent, Box, Button } from "@mui/material"
+import { Grid, Card, Typography, CardContent, Box, Button, Snackbar, Slide } from "@mui/material"
 import { makeStyles } from '@mui/styles';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios'
+
+function Transition(props) {
+  return <Slide {...props} direction="right" />;
+}
+
 const useStyles = makeStyles({
   container: {
     marginTop: 'auto',
@@ -49,16 +54,24 @@ const ChangePassword = (props) => {
   const classes = useStyles()
   const navigate = useNavigate();
   const [password, setPassword] = React.useState('')
-
+  const [openSnackBar, setOpenSnackBar] = React.useState(false);
+  const [snackMsg, setSnackMsg] = React.useState('');
   let {collegeid} = useParams();
+
+  const handleClose = () => {
+    setOpenSnackBar(false);
+  };
 
   const changeStudentPassword = async() => {
     let body = JSON.stringify({password: password})
     await axios.post(`http://localhost:5000/changePassword/${collegeid}`, body)
     .then(res => {
       if(res.data.status === 200) {
-        alert('Password Changed Successfully')
-        navigate('/')
+        setOpenSnackBar(true);
+        setSnackMsg(res.data.message);
+        setTimeout(() => {
+          navigate('/')
+        }, 1500)
       } else {
         alert('Password Change Failed')
       }
@@ -96,6 +109,13 @@ const ChangePassword = (props) => {
           </Grid>
         </Grid>
       </div>
+      <Snackbar
+        open={openSnackBar}
+        onClose={handleClose}
+        autoHideDuration={1500}
+        TransitionComponent={Transition}
+        message={snackMsg}
+      />
     </div>
   )
 }

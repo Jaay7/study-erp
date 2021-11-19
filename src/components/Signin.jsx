@@ -1,10 +1,14 @@
 import React from 'react'
-import { Grid, Card, Typography, CardContent, Box, Button, IconButton } from "@mui/material"
+import { Grid, Card, Typography, CardContent, Box, Button, IconButton, Slide, Snackbar } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 import { useNavigate } from "react-router-dom"
 import edusignin from '../assets/images/edusignin.svg'
 import axios from 'axios'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
+
+function Transition(props) {
+  return <Slide {...props} direction="right" />;
+}
 
 const useStyles = makeStyles({
   root: {
@@ -57,11 +61,17 @@ const Signin = () => {
   const navigate = useNavigate();
   const classes = useStyles();
 
+  const [openSnackBar, setOpenSnackBar] = React.useState(false);
+  const [snackMsg, setSnackMsg] = React.useState('');
   const [idno, setIdno] = React.useState('')
   const [password, setPassword] = React.useState({
     text: '',
     show: false
   })
+
+  const handleClose = () => {
+    setOpenSnackBar(false);
+  };
 
   const signInStudent = async() => {
     await axios.post('http://localhost:5000/login', null, {
@@ -77,13 +87,22 @@ const Signin = () => {
         if(res.pending === true) {
           navigate(`/changePassword/${idno}?forgot=no`)
         } else {
-          navigate('/')
+          setOpenSnackBar(true);
+          setSnackMsg(res.data.message);
+          setTimeout(() => {
+            navigate('/')
+          }, 1500)
         }
       } else {
-        alert('Invalid Credentials')
+        setOpenSnackBar(true);
+        setSnackMsg(res.data.message);
       }
     })
-    .catch(err => {console.log(err)})
+    .catch(err => {
+      setOpenSnackBar(true);
+      setSnackMsg(err.message);
+      console.log(err)
+    })
   }
 
   return (
@@ -137,6 +156,13 @@ const Signin = () => {
           </Grid>
         </Grid>
       </div>
+      <Snackbar
+        open={openSnackBar}
+        onClose={handleClose}
+        autoHideDuration={1500}
+        TransitionComponent={Transition}
+        message={snackMsg}
+      />
     </div>
   )
 }
