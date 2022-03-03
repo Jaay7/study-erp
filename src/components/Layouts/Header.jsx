@@ -1,5 +1,5 @@
 import React from "react";
-import { AppBar, Toolbar, Typography, CssBaseline, useScrollTrigger, Slide, IconButton, Box, Skeleton, SwipeableDrawer, Icon } from "@mui/material"
+import { AppBar, Toolbar, Typography, CssBaseline, useScrollTrigger, Slide, IconButton, Box, SwipeableDrawer, Icon } from "@mui/material"
 import PropTypes from 'prop-types';
 import { makeStyles } from '@mui/styles';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -9,12 +9,6 @@ import { grey } from "@mui/material/colors";
 import { Link } from "react-router-dom";
 
 const drawerBleeding = 56;
-
-const Root = styled('div')(({ theme }) => ({
-  height: '100%',
-  backgroundColor:
-    theme.palette.mode === 'light' ? grey[100] : theme.palette.background.default,
-}));
 
 const StyledBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'light' ? '#fff' : grey[800],
@@ -77,7 +71,6 @@ const Header = (props) => {
   const classes = useStyles();
   let collegeid = localStorage.getItem('collegeid');
 
-  const { window } = props;
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen) => () => {
@@ -136,7 +129,7 @@ const Header = (props) => {
             visibility: 'visible',
             right: 0,
             left: 0,
-            backgroundColor: '#FFEBEE',
+            backgroundColor: '#FFFBEE',
           }}
         >
           <Puller />
@@ -148,12 +141,12 @@ const Header = (props) => {
             pb: 2,
             height: '100%',
             overflow: 'auto',
-            backgroundColor: '#FFEBEE',
+            backgroundColor: '#FFFBEE',
           }}
         >
           <div style={{display: 'flex', flexWrap: 'wrap', alignSelf: 'center', width: '100%'}}>
           {BottomItems.map((item, index) => (
-            <Box component={Link} to={item.route} key={index} sx={{ p: 2, cursor: 'pointer', width: 120, border: '1px solid #e2e2e2', borderRadius: "10px", display: 'flex', flexDirection: "column", margin: "10px", justifyContent: "center", alignItems: "center", textAlign: "center", boxShadow: "0px 0px 8px #12121220", backdropFilter: 'blur(5px)', backgroundColor: '#FFCDD2', textDecoration: 'none'}} onClick={ toggleDrawer(false)}>
+            <Box component={Link} to={item.route} key={index} sx={{ p: 1, cursor: 'pointer', width: 'max-content', borderRadius: "8px", display: 'flex', flexDirection: "row", margin: "6px", justifyContent: "center", alignItems: "center", textAlign: "center", boxShadow: "3px 3px 8px #12121220", backgroundColor: '#f0cdce', textDecoration: 'none'}} onClick={ toggleDrawer(false)}>
               <IconButton>
                 <Icon baseClassName="material-icons-round" style={{color: '#D32F2F'}}>{item.icon}</Icon>
               </IconButton>
