@@ -59,7 +59,7 @@ const BottomItems = [
   {name: "End Exam Result", icon: "lock", route: ""},
   {name: "Hostel Management", icon: "hotel", route: ""},
   {name: "My CGPA", icon: "leaderboard", route: ""},
-  {name: "Profile", icon: "person", route: ""},
+  {name: "Profile", icon: "person", route: "/profile"},
   {name: "Quizes", icon: "quiz", route: ""},
   {name: "Take an Exam", icon: "note_alt", route: ""},
   {name: "Ticketing Support", icon: "help", route: ""},
